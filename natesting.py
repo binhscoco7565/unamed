@@ -4,24 +4,24 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
+from PyQt6.uic import loadUi
 import sys
 
 
 class Window(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowIcon(QIcon("utsu200-m.gif"))
-        self.setWindowTitle("鬱")
+        # self.setWindowIcon(QIcon("utsu200-m.gif"))
+        # self.setWindowTitle("鬱")
 
-        layout = QGridLayout()
-        self.setLayout(layout)
+        # layout = QGridLayout()
+        # self.setLayout(layout)
 
-        bookmarks = QPushButton("Bookmarks")
-        bookmarks.clicked.connect(ben)
-        layout.addWidget(bookmarks, 1, 0)
+        # bookmarks = QPushButton("Bookmarks")
+        # bookmarks.clicked.connect(ben)
+        # layout.addWidget(bookmarks, 1, 0)
+        loadUi("mainscreen.ui")
 
-def ben(self):
-    print("Ben")
 
 app = QApplication(sys.argv)
 Window = Window()
