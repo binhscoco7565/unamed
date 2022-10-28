@@ -1,5 +1,4 @@
 from ast import Global
-from asyncio.windows_events import NULL
 import csv
 import os
 from unicodedata import name
@@ -20,6 +19,13 @@ tempname = None
 pretempname = None
 
 itemname = None
+
+if os.system == "nt":
+    path = "Bookmarks\\"
+else:
+    path = "Bookmarks/"
+
+print(path)
 
 list = []
 
@@ -49,11 +55,11 @@ def checkforduplicates():
 
 def deleteitem():
     print(itemname)
-    os.remove(f'Bookmarks\{itemname}.csv')
+    os.remove(f'{path}{itemname}.csv')
 
 def writebookmark():
     global tempname
-    open(f'Bookmarks\{tempname}.csv', 'w', newline = "")
+    open(f'{path}{tempname}.csv', 'w', newline = "")
 
 def disabledeleteandeditafterdelete():
     global deenabled
