@@ -1,4 +1,4 @@
-from ast import Global
+from ast import Del, Global
 import csv
 import os
 from unicodedata import name
@@ -56,6 +56,10 @@ def checkforduplicates():
 def deleteitem():
     print(itemname)
     os.remove(f'{path}{itemname}.csv')
+    current = bookmarksscreen.Blist.currentRow()
+    bookmarksscreen.Blist.takeItem(current)
+    disabledeleteandeditafterdelete()
+    deleteconfirmationscreen.close()
 
 def writebookmark():
     global tempname
@@ -124,10 +128,7 @@ class Bookmarksscreen(QMainWindow):
         # widget.setCurrentIndex(widget.currentIndex()+1)
     
     def deleteitem(self):
-        current = self.Blist.currentRow()
-        self.Blist.takeItem(current)
-        disabledeleteandeditafterdelete()
-        deleteitem()
+        deleteconfirmationscreen.show()
 
     def disabledeleteandedit(self):
         self.Delete.setEnabled(False)
@@ -164,9 +165,20 @@ class Duplicatescreen(QMainWindow):
         super(Duplicatescreen, self).__init__()
         loadUi('duplicateerror.ui', self)
         self.setWindowIcon(QIcon("error.png"))
-        self.setWindowTitle("ERROR")
+        self.setWindowTitle("Error")
         self.pushButton.clicked.connect(self.close)
         self.pushButton.clicked.connect(reset)
+    
+class Deleteconfirmationscreen(QMainWindow):
+    def __init__(self):
+        super(Deleteconfirmationscreen, self).__init__()
+        loadUi('deletewarning.ui', self)
+        self.setWindowIcon(QIcon("warning.png"))
+        self.setWindowTitle("Are you sure?")
+        self.OK.clicked.connect(deleteitem)
+        self.Cancel.clicked.connect(self.close)
+
+
    
 app = QApplication(sys.argv)
 widget = QStackedWidget()
@@ -174,11 +186,14 @@ bnamescreen = Bnamescreen()
 mainscreen = Mainscreen()
 bookmarksscreen = Bookmarksscreen()
 duplicatescreen = Duplicatescreen()
+deleteconfirmationscreen = Deleteconfirmationscreen()
 widget.addWidget(mainscreen)
 widget.addWidget(bookmarksscreen)
 bnamescreen.setFixedHeight(50)
 bnamescreen.setFixedWidth(500)
 duplicatescreen.setFixedHeight(110)
 duplicatescreen.setFixedWidth(270)
+deleteconfirmationscreen.setFixedHeight(110)
+deleteconfirmationscreen.setFixedWidth(350)
 widget.show()
 sys.exit(app.exec())   
