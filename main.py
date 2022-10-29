@@ -14,23 +14,39 @@ from PyQt6.QtGui import QIcon
 
 import sys
 
+# DECLERATION DECLERATION
 tempname = None
 
 pretempname = None
 
 itemname = None
 
-if os.system == "nt":
-    path = "Bookmarks\\"
-else:
-    path = "Bookmarks/"
-
-print(path)
-
-list = []
-
 deenabled = 0
 
+# OTHER SYSTEMS INTERGRATION
+if os.system == "nt":
+    path = "Bookmarks\\"
+    assets = "uisandassets\\"
+else:
+    path = "Bookmarks/"
+    assets = "uisandassets/"
+
+# OPENING NEW WINDOWS
+def duplicatefound():
+    duplicatescreen.show()
+
+def openedit():
+    # bookmark = []
+    editbookmarksscreen.show()
+    currentbookmark = open(f'{bookmarksscreen.Blist.currentItem().text()}', 'r+', encoding="utf8", newline="")
+    # writer = csv.writer(currentbookmark)
+    currentbookmark.close()
+
+def gotoname():
+    bnamescreen.show()
+    bnamescreen.Nameinput.setText("")
+
+# BOOKMARKSCREENLIST DEFS
 def loadlist():
     filelist = os.listdir("Bookmarks")
     for i in range(len(filelist)):
@@ -39,9 +55,6 @@ def loadlist():
     for i in filelist:
         print(i)
         bookmarksscreen.Blist.addItem(i)
-
-def duplicatefound():
-    duplicatescreen.show()
 
 def checkforduplicates():
     filelist = os.listdir("Bookmarks")
@@ -64,7 +77,7 @@ def deleteitem():
 def writebookmark():
     global tempname
     open(f'{path}{tempname}.csv', 'w', newline = "")
-
+    
 def disabledeleteandeditafterdelete():
     global deenabled
     bookmarksscreen.Delete.setEnabled(False)
@@ -77,14 +90,20 @@ def addtolist():
         bookmarksscreen.Blist.addItem(tempname)
     writebookmark()
 
+# BOOKMARKS EDITING DEFS
+
+
+# OTHER DEFS
 def reset():
     bnamescreen.Nameinput.setText("")
+
+
 
 class Mainscreen(QMainWindow):
     def __init__(self):
         super(Mainscreen, self).__init__()
-        loadUi('mainscreen.ui', self)
-        widget.setWindowIcon(QIcon("icon.png"))
+        loadUi(f'{assets}mainscreen.ui', self)
+        widget.setWindowIcon(QIcon(f'{assets}icon.png'))
         widget.setWindowTitle("unamed")
         self.Bookmarks.clicked.connect(self.gotobookmarks)
         self.Bookmarks.clicked.connect(loadlist)
@@ -92,24 +111,23 @@ class Mainscreen(QMainWindow):
     def gotobookmarks(self):
         widget.addWidget(bookmarksscreen)
         widget.removeWidget(mainscreen)
-        # widget.setCurrentIndex(widget.currentIndex()+1)
 
 class Bookmarksscreen(QMainWindow):
     def __init__(self):
         super(Bookmarksscreen, self).__init__()
-        loadUi('bookmarksscreen.ui', self)
+        loadUi(f'{assets}bookmarksscreen.ui', self)
         self.Main.clicked.connect(self.gotomain)
-        self.Add.clicked.connect(self.gotoname)
+        self.Add.clicked.connect(gotoname)
         self.Blist.itemSelectionChanged.connect(self.disabledeleteandedit)
         self.Blist.itemClicked.connect(self.enabledeleteandedit)
         self.Delete.clicked.connect(self.deleteitem)
+        self.Edit.clicked.connect(openedit)
         
     def disabledeleteandedit(self):
         global deenabled
         if deenabled == self.Blist.currentRow():
             self.Delete.setEnabled(False)
             self.Edit.setEnabled(False)
-        
 
     def enabledeleteandedit(self):
         global deenabled, itemname
@@ -119,13 +137,11 @@ class Bookmarksscreen(QMainWindow):
         deenabled = self.Blist.currentRow()
         itemname = self.Blist.currentItem().text()
 
-    def gotoname(self):
-        bnamescreen.show()
-
     def gotomain(self):
+        self.Blist.clear()
+        print("cleared")
         widget.addWidget(mainscreen)
         widget.removeWidget(bookmarksscreen)
-        # widget.setCurrentIndex(widget.currentIndex()+1)
     
     def deleteitem(self):
         deleteconfirmationscreen.show()
@@ -134,11 +150,12 @@ class Bookmarksscreen(QMainWindow):
         self.Delete.setEnabled(False)
         self.Edit.setEnabled(False)
 
+#POP UP SCREENS
 class Bnamescreen(QMainWindow):
     def __init__(self):
         super(Bnamescreen, self).__init__()
-        loadUi('bname.ui', self)
-        self.setWindowIcon(QIcon("icon.png"))
+        loadUi(f'{assets}bname.ui', self)
+        self.setWindowIcon(QIcon(f'{assets}icon.png'))
         self.setWindowTitle("name")
         self.Confirm.clicked.connect(self.addname)
         self.Confirm.clicked.connect(self.close)
@@ -163,8 +180,8 @@ class Bnamescreen(QMainWindow):
 class Duplicatescreen(QMainWindow):
     def __init__(self):
         super(Duplicatescreen, self).__init__()
-        loadUi('duplicateerror.ui', self)
-        self.setWindowIcon(QIcon("error.png"))
+        loadUi(f'{assets}duplicateerror.ui', self)
+        self.setWindowIcon(QIcon(f'{assets}icon.png'))
         self.setWindowTitle("Error")
         self.pushButton.clicked.connect(self.close)
         self.pushButton.clicked.connect(reset)
@@ -172,27 +189,49 @@ class Duplicatescreen(QMainWindow):
 class Deleteconfirmationscreen(QMainWindow):
     def __init__(self):
         super(Deleteconfirmationscreen, self).__init__()
-        loadUi('deletewarning.ui', self)
-        self.setWindowIcon(QIcon("warning.png"))
+        loadUi(f'{assets}deletewarning.ui', self)
+        self.setWindowIcon(QIcon(f'{assets}icon.png'))
         self.setWindowTitle("Are you sure?")
         self.OK.clicked.connect(deleteitem)
         self.Cancel.clicked.connect(self.close)
 
+class Bfrontscreen(QMainWindow):
+    def __init__(self):
+        super(Bfrontscreen, self).__init__()
+        loadUi(f'{assets}bfront.ui', self)
 
-   
+class Bbackscreen(QMainWindow):
+    def __init__(self):
+        super(Bbackscreen, self).__init__()
+        loadUi(f'{assets}bback.ui', self)
+
+class Editbookmarksscreen(QMainWindow):
+    def __init__(self):
+        super(Editbookmarksscreen, self).__init__()
+        loadUi(f'{assets}bookmarksedit.ui', self)
+        self.resize(600, 450)
+
+
+
 app = QApplication(sys.argv)
 widget = QStackedWidget()
+
 bnamescreen = Bnamescreen()
 mainscreen = Mainscreen()
 bookmarksscreen = Bookmarksscreen()
 duplicatescreen = Duplicatescreen()
 deleteconfirmationscreen = Deleteconfirmationscreen()
+editbookmarksscreen = Editbookmarksscreen()
+bfrontscreen = Bfrontscreen()
+bbackscreen = Bbackscreen()
+
 widget.addWidget(mainscreen)
 widget.addWidget(bookmarksscreen)
+
 bnamescreen.setFixedHeight(50)
 bnamescreen.setFixedWidth(500)
 duplicatescreen.setFixedHeight(110)
-duplicatescreen.setFixedWidth(270)
+duplicatescreen.setFixedWidth(280)
 deleteconfirmationscreen.setFixedHeight(110)
 deleteconfirmationscreen.setFixedWidth(350)
 widget.show()

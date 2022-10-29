@@ -1,7 +1,0 @@
-<RCC>
-  <qresource prefix="newPrefix">
-    <file>warningresize.png</file>
-    <file>error.png</file>
-    <file>warning.png</file>
-  </qresource>
-</RCC>
