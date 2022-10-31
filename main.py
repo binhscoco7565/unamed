@@ -1,5 +1,6 @@
 from ast import Del, Global
 import csv
+from logging import BASIC_FORMAT
 import os
 from unicodedata import name
 from PyQt6.QtWidgets import (
@@ -16,13 +17,13 @@ import sys
 
 # DECLERATION DECLERATION
 tempname = None
-
 pretempname = None
-
 itemname = None
-
 deenabled = 0
-
+card = []
+bookmark = []
+tempfront = None
+tempback = None
 # OTHER SYSTEMS INTERGRATION
 if os.system == "nt":
     path = "Bookmarks\\"
@@ -38,7 +39,7 @@ def duplicatefound():
 def openedit():
     # bookmark = []
     editbookmarksscreen.show()
-    currentbookmark = open(f'{bookmarksscreen.Blist.currentItem().text()}', 'r+', encoding="utf8", newline="")
+    currentbookmark = open(f'{path}{bookmarksscreen.Blist.currentItem().text()}.csv', 'r+', encoding="utf8", newline="")
     # writer = csv.writer(currentbookmark)
     currentbookmark.close()
 
@@ -91,8 +92,27 @@ def addtolist():
     writebookmark()
 
 # BOOKMARKS EDITING DEFS
+def openbfront():
+    bfrontscreen.show()
 
+def addfront():
+    global tempfront
+    tempfront = bfrontscreen.Nameinput.text()
+    while True:
+        if tempfront != "":
+            break
+    editbookmarksscreen.Front.addItem(tempfront)
+    bfrontscreen.close()
+    bbackscreen.show()
 
+def addback():
+    global tempback
+    tempback = bbackscreen.Nameinput.text()
+    while True:
+        if tempback != "":
+            break
+    editbookmarksscreen.Back.addItem(tempback)
+    bbackscreen.close()
 # OTHER DEFS
 def reset():
     bnamescreen.Nameinput.setText("")
@@ -111,6 +131,8 @@ class Mainscreen(QMainWindow):
     def gotobookmarks(self):
         widget.addWidget(bookmarksscreen)
         widget.removeWidget(mainscreen)
+        widget.removeWidget(bfrontscreen)
+        widget.removeWidget(bbackscreen)
 
 class Bookmarksscreen(QMainWindow):
     def __init__(self):
@@ -142,6 +164,8 @@ class Bookmarksscreen(QMainWindow):
         print("cleared")
         widget.addWidget(mainscreen)
         widget.removeWidget(bookmarksscreen)
+        widget.removeWidget(bfrontscreen)
+        widget.removeWidget(bbackscreen)
     
     def deleteitem(self):
         deleteconfirmationscreen.show()
@@ -169,8 +193,6 @@ class Bnamescreen(QMainWindow):
         if allowit == 0:
             pretempname = self.Nameinput.text()
             tempname = pretempname
-            list.append(tempname)
-            print(list)
             print(tempname)
             self.Nameinput.setText("")
             addtolist()
@@ -199,18 +221,26 @@ class Bfrontscreen(QMainWindow):
     def __init__(self):
         super(Bfrontscreen, self).__init__()
         loadUi(f'{assets}bfront.ui', self)
+        self.setWindowIcon(QIcon(f'{assets}icon.png'))
+        self.setWindowTitle("Edit")
+        self.Confirm.clicked.connect(addfront)
 
 class Bbackscreen(QMainWindow):
     def __init__(self):
         super(Bbackscreen, self).__init__()
         loadUi(f'{assets}bback.ui', self)
+        self.setWindowIcon(QIcon(f'{assets}icon.png'))
+        self.setWindowTitle("Edit")
+        self.Confirm.clicked.connect(addback)
 
 class Editbookmarksscreen(QMainWindow):
     def __init__(self):
         super(Editbookmarksscreen, self).__init__()
         loadUi(f'{assets}bookmarksedit.ui', self)
         self.resize(600, 450)
-
+        self.setWindowIcon(QIcon(f'{assets}icon.png'))
+        self.setWindowTitle("Edit")
+        self.Add.clicked.connect(openbfront)
 
 
 app = QApplication(sys.argv)
@@ -230,6 +260,10 @@ widget.addWidget(bookmarksscreen)
 
 bnamescreen.setFixedHeight(50)
 bnamescreen.setFixedWidth(500)
+bfrontscreen.setFixedHeight(80)
+bfrontscreen.setFixedWidth(330)
+bbackscreen.setFixedHeight(80)
+bbackscreen.setFixedWidth(330)
 duplicatescreen.setFixedHeight(110)
 duplicatescreen.setFixedWidth(280)
 deleteconfirmationscreen.setFixedHeight(110)

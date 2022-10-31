@@ -7,15 +7,43 @@
     <x>0</x>
     <y>0</y>
     <width>648</width>
-    <height>667</height>
+    <height>600</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>600</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="3" column="2">
+    <item row="4" column="4">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Preferred</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>1</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="3" column="3">
      <widget class="QTextBrowser" name="textBrowser_2">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -38,71 +66,7 @@ p, li { white-space: pre-wrap; }
       </property>
      </widget>
     </item>
-    <item row="4" column="1">
-     <widget class="QListView" name="Front">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>600</height>
-       </size>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="3">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Preferred</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>1</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="4" column="2">
-     <widget class="QListWidget" name="Back">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>600</height>
-       </size>
-      </property>
-     </widget>
-    </item>
     <item row="4" column="5">
-     <spacer name="horizontalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Preferred</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="4" column="4">
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QPushButton" name="Add">
@@ -128,6 +92,9 @@ p, li { white-space: pre-wrap; }
       </item>
       <item>
        <widget class="QPushButton" name="Delete">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string>Delete</string>
         </property>
@@ -135,6 +102,9 @@ p, li { white-space: pre-wrap; }
       </item>
       <item>
        <widget class="QPushButton" name="Edit">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string>Edit</string>
         </property>
@@ -149,7 +119,7 @@ p, li { white-space: pre-wrap; }
       </item>
      </layout>
     </item>
-    <item row="2" column="1">
+    <item row="2" column="2">
      <spacer name="verticalSpacer">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
@@ -165,7 +135,7 @@ p, li { white-space: pre-wrap; }
       </property>
      </spacer>
     </item>
-    <item row="5" column="1">
+    <item row="5" column="2">
      <spacer name="verticalSpacer_2">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
@@ -181,7 +151,23 @@ p, li { white-space: pre-wrap; }
       </property>
      </spacer>
     </item>
-    <item row="3" column="1">
+    <item row="4" column="0">
+     <spacer name="horizontalSpacer_3">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Preferred</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>30</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="3" column="2">
      <widget class="QTextBrowser" name="textBrowser">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -204,8 +190,8 @@ p, li { white-space: pre-wrap; }
       </property>
      </widget>
     </item>
-    <item row="4" column="0">
-     <spacer name="horizontalSpacer_3">
+    <item row="4" column="6">
+     <spacer name="horizontalSpacer_2">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -214,11 +200,30 @@ p, li { white-space: pre-wrap; }
       </property>
       <property name="sizeHint" stdset="0">
        <size>
-        <width>40</width>
-        <height>30</height>
+        <width>20</width>
+        <height>20</height>
        </size>
       </property>
      </spacer>
+    </item>
+    <item row="4" column="2">
+     <widget class="QListWidget" name="Front"/>
+    </item>
+    <item row="4" column="3">
+     <widget class="QListWidget" name="Back">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>600</height>
+       </size>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
