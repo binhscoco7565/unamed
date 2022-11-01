@@ -26,11 +26,9 @@ tempfront = None
 tempback = None
 # OTHER SYSTEMS INTERGRATION
 if os.system == "nt":
-    path = "Bookmarks\\"
-    assets = "uisandassets\\"
+    path = "\\"
 else:
-    path = "Bookmarks/"
-    assets = "uisandassets/"
+    path = "/"
 
 # OPENING NEW WINDOWS
 def duplicatefound():
@@ -39,7 +37,7 @@ def duplicatefound():
 def openedit():
     # bookmark = []
     editbookmarksscreen.show()
-    currentbookmark = open(f'{path}{bookmarksscreen.Blist.currentItem().text()}.csv', 'r+', encoding="utf8", newline="")
+    currentbookmark = open(f'bookmarks{path}{bookmarksscreen.Blist.currentItem().text()}.csv', 'r+', encoding="utf8", newline="")
     # writer = csv.writer(currentbookmark)
     currentbookmark.close()
 
@@ -49,7 +47,7 @@ def gotoname():
 
 # BOOKMARKSCREENLIST DEFS
 def loadlist():
-    filelist = os.listdir("Bookmarks")
+    filelist = os.listdir("bookmarks")
     for i in range(len(filelist)):
         filelist[i] = filelist[i].replace('.csv', '')
         print(filelist[i])
@@ -58,7 +56,7 @@ def loadlist():
         bookmarksscreen.Blist.addItem(i)
 
 def checkforduplicates():
-    filelist = os.listdir("Bookmarks")
+    filelist = os.listdir("bookmarks")
     for i in range(len(filelist)):
         filelist[i] = filelist[i].replace('.csv', '')
     for i in range(len(filelist)):
@@ -69,7 +67,7 @@ def checkforduplicates():
 
 def deleteitem():
     print(itemname)
-    os.remove(f'{path}{itemname}.csv')
+    os.remove(f'bookmarks{path}{itemname}.csv')
     current = bookmarksscreen.Blist.currentRow()
     bookmarksscreen.Blist.takeItem(current)
     disabledeleteandeditafterdelete()
@@ -77,7 +75,7 @@ def deleteitem():
 
 def writebookmark():
     global tempname
-    open(f'{path}{tempname}.csv', 'w', newline = "")
+    open(f'bookmarks{path}{tempname}.csv', 'w', newline = "")
     
 def disabledeleteandeditafterdelete():
     global deenabled
@@ -122,8 +120,8 @@ def reset():
 class Mainscreen(QMainWindow):
     def __init__(self):
         super(Mainscreen, self).__init__()
-        loadUi(f'{assets}mainscreen.ui', self)
-        widget.setWindowIcon(QIcon(f'{assets}icon.png'))
+        loadUi(f'ui{path}main.ui', self)
+        widget.setWindowIcon(QIcon(f'ui{path}resources{path}icon.png'))
         widget.setWindowTitle("unamed")
         self.Bookmarks.clicked.connect(self.gotobookmarks)
         self.Bookmarks.clicked.connect(loadlist)
@@ -137,7 +135,7 @@ class Mainscreen(QMainWindow):
 class Bookmarksscreen(QMainWindow):
     def __init__(self):
         super(Bookmarksscreen, self).__init__()
-        loadUi(f'{assets}bookmarksscreen.ui', self)
+        loadUi(f'ui{path}bookmarks.ui', self)
         self.Main.clicked.connect(self.gotomain)
         self.Add.clicked.connect(gotoname)
         self.Blist.itemSelectionChanged.connect(self.disabledeleteandedit)
@@ -178,8 +176,8 @@ class Bookmarksscreen(QMainWindow):
 class Bnamescreen(QMainWindow):
     def __init__(self):
         super(Bnamescreen, self).__init__()
-        loadUi(f'{assets}bname.ui', self)
-        self.setWindowIcon(QIcon(f'{assets}icon.png'))
+        loadUi(f'ui{path}bookmarks_name.ui', self)
+        self.setWindowIcon(QIcon(f'ui{path}resources{path}icon.png'))
         self.setWindowTitle("name")
         self.Confirm.clicked.connect(self.addname)
         self.Confirm.clicked.connect(self.close)
@@ -202,8 +200,8 @@ class Bnamescreen(QMainWindow):
 class Duplicatescreen(QMainWindow):
     def __init__(self):
         super(Duplicatescreen, self).__init__()
-        loadUi(f'{assets}duplicateerror.ui', self)
-        self.setWindowIcon(QIcon(f'{assets}icon.png'))
+        loadUi(f'ui{path}error.ui', self)
+        self.setWindowIcon(QIcon(f'ui{path}resources{path}icon.png'))
         self.setWindowTitle("Error")
         self.pushButton.clicked.connect(self.close)
         self.pushButton.clicked.connect(reset)
@@ -211,8 +209,8 @@ class Duplicatescreen(QMainWindow):
 class Deleteconfirmationscreen(QMainWindow):
     def __init__(self):
         super(Deleteconfirmationscreen, self).__init__()
-        loadUi(f'{assets}deletewarning.ui', self)
-        self.setWindowIcon(QIcon(f'{assets}icon.png'))
+        loadUi(f'ui{path}warning.ui', self)
+        self.setWindowIcon(QIcon(f'ui{path}resources{path}icon.png'))
         self.setWindowTitle("Are you sure?")
         self.OK.clicked.connect(deleteitem)
         self.Cancel.clicked.connect(self.close)
@@ -220,25 +218,25 @@ class Deleteconfirmationscreen(QMainWindow):
 class Bfrontscreen(QMainWindow):
     def __init__(self):
         super(Bfrontscreen, self).__init__()
-        loadUi(f'{assets}bfront.ui', self)
-        self.setWindowIcon(QIcon(f'{assets}icon.png'))
+        loadUi(f'ui{path}bookmarks_front.ui', self)
+        self.setWindowIcon(QIcon(f'ui{path}resources{path}icon.png'))
         self.setWindowTitle("Edit")
         self.Confirm.clicked.connect(addfront)
 
 class Bbackscreen(QMainWindow):
     def __init__(self):
         super(Bbackscreen, self).__init__()
-        loadUi(f'{assets}bback.ui', self)
-        self.setWindowIcon(QIcon(f'{assets}icon.png'))
+        loadUi(f'ui{path}bookmarks_back.ui', self)
+        self.setWindowIcon(QIcon(f'ui{path}resources{path}icon.png'))
         self.setWindowTitle("Edit")
         self.Confirm.clicked.connect(addback)
 
 class Editbookmarksscreen(QMainWindow):
     def __init__(self):
         super(Editbookmarksscreen, self).__init__()
-        loadUi(f'{assets}bookmarksedit.ui', self)
+        loadUi(f'ui{path}bookmarks_edit.ui', self)
         self.resize(600, 450)
-        self.setWindowIcon(QIcon(f'{assets}icon.png'))
+        self.setWindowIcon(QIcon(f'ui{path}resources{path}icon.png'))
         self.setWindowTitle("Edit")
         self.Add.clicked.connect(openbfront)
 
