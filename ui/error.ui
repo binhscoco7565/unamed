@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">image: url(error.png);</string>
+     <string notr="true">image: url(ui/resources/error.png);</string>
     </property>
     <property name="text">
      <string/>
